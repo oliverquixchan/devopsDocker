@@ -1,0 +1,28 @@
+version: '3'
+
+services: 
+    redis:
+        image: redis
+        ports: 
+            - 6379:6379
+        container_name: redis_cont
+    db: 
+        image: postgres:13.2-alpine
+        restart: unless-stopped
+        environment: 
+            POSTGRES_PASSWORD: example
+        container_name: db_cont
+    frontend:
+        image: frontend
+        ports: 
+            - 5000:5000 
+    backend:
+        image: backend
+        ports:
+            - 8080:8080
+        environment: 
+            REDIS_HOST: redis_cont
+            POSTGRES_HOST: db_cont
+            POSTGRES_PASSWORD: example
+            POSTGRES_DATABASE: postgres
+    
