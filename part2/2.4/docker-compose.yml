@@ -5,6 +5,7 @@ services:
         image: redis
         ports: 
             - 6379:6379
+        container_name: redis_cont
     frontend:
         image: frontend
         ports: 
@@ -14,6 +15,5 @@ services:
         ports:
             - 8080:8080
         environment: 
-            # redis host name will be given when default network is created. This one might not work and should be updated accordingly.
-            REDIS_HOST: 24_redis_1
+           REDIS_HOST: redis_cont
     
