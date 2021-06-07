@@ -1,0 +1,22 @@
+FROM golang:1.16-alpine3.13 AS build-env
+
+WORKDIR /usr/usr/app/
+
+COPY . .
+
+RUN go build -o goapp
+
+FROM alpine
+
+RUN apk update && apk add ca-certificates && \
+    rm -rf /var/cache/apk/*
+
+WORKDIR /usr/usr/app
+
+COPY --from=build-env /usr/usr/app/goapp /usr/usr/app/
+EXPOSE 8080
+
+RUN  adduser --disabled-password appuser
+USER appuser
+
+ENTRYPOINT ./goapp
