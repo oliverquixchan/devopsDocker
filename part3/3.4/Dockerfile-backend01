@@ -1,0 +1,15 @@
+FROM golang:1.16-alpine3.13
+
+EXPOSE 8080
+
+WORKDIR /usr/usr/app/
+
+COPY . .
+
+RUN go build . && \
+    adduser --disabled-password appuser
+
+USER appuser
+
+
+CMD ./server
